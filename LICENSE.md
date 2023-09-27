@@ -1,3 +1,5 @@
+![logo-blue-back-boxed](https://github.com/ibexus-platform/ibexus-connector/assets/67227/d64936b4-372b-4719-b841-2c839936ddb8)
+
 # End-User License Agreement (EULA) of IBEXUS Connector
 
 This End-User License Agreement ("EULA") is a legal agreement between you and blueocean IMPACT AG. Our EULA was created by EULA Template for IBEXUS Connector.
