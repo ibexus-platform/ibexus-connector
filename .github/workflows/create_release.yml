@@ -36,11 +36,8 @@ jobs:
         asset_path: ${{ github.workspace }}/assets/ibexus-connector-${VERSION}-x86_64-linux.zip
 
     - name: Push image to Docker Hub
-      env:
-        DOCKER_USER: "ibexus"
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+        docker login -u "ibexus" -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} 
         docker load < 
         docker push ibexus/ibexus-connector:${VERSION}
 
