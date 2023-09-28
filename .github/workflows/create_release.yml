@@ -19,12 +19,13 @@ jobs:
       with:
         lfs: true
 
-    # - name: Get release version
-    #   run: |
-    #     VERSION=${GITHUB_REF_NAME#v}
-    #     echo Version: $VERSION
-    #     echo "VERSION=$VERSION" >> $GITHUB_ENV
-    #     # use as ${VERSION}
+    - name: Get release version
+      run: |
+        # VERSION=${GITHUB_REF_NAME#v}
+        VERSION="0.1.0"
+        echo Version: $VERSION
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        # use as ${VERSION}
 
     # - name: Create a Release
     #   id: create_release
