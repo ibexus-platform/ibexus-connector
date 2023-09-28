@@ -25,7 +25,7 @@ Download the executable binary for your platform from XXXXXXXXXXXXXXXXX. At the 
 
 ### Container image
 
-Download the image from XXXXXXXXXXXXXXXXXXXXX. The image is an [OCI](https://opencontainers.org/) image packed as a `.tar` file.
+Access the image at Docker Hub <https://hub.docker.com/r/ibexus/ibexus-connector>.
 
 #### Environment variables
 
