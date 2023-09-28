@@ -1,6 +1,6 @@
-![logo-blue-back-boxed](https://github.com/ibexus-platform/ibexus-connector/assets/67227/d64936b4-372b-4719-b841-2c839936ddb8)
+# ![logo-blue-back-boxed](https://github.com/ibexus-platform/ibexus-connector/assets/67227/d64936b4-372b-4719-b841-2c839936ddb8)
 
-# Getting started with the IBEXUS Connector command line tool
+## Getting started with the IBEXUS Connector command line tool
 
 To get comfortable with the IBEXUS platform, please follow along whith this quick tutorial. If you have any further question, please do not hesitate to contact [developer@ibexus.io](mailto:developer@ibexus.io). In order to complete this tutorial, you need to have the IBEXUS Connector command line tool installed on a machine of your choice, as well as access to the `ibexus-connector` binary in a terminal. Internet access is not required for this simple tutorial, as we will be using the built-in sandbox environment.
 
