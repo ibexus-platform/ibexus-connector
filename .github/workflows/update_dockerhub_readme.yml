@@ -1,0 +1,21 @@
+name: Create and distribute release
+
+on:
+  push:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: actions/checkout@v4
+      with:
+        lfs: true
+
+    - name: Docker Hub Description
+      uses: peter-evans/dockerhub-description@v3
+      with:
+        username: ibexus
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        repository: ibexus/ibexus-connector
+        

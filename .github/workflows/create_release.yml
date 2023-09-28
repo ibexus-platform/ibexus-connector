@@ -38,11 +38,3 @@ jobs:
         echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u "ibexus" --password-stdin
         docker load < ${{ github.workspace }}/assets/ibexus-connector-image-${VERSION}.tar
         docker push ibexus/ibexus-connector:${VERSION}
-
-    - name: Docker Hub Description
-      uses: peter-evans/dockerhub-description@v3
-      with:
-        username: ibexus
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-        repository: ibexus/ibexus-connector
-        
