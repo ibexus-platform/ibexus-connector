@@ -19,10 +19,6 @@ You can use IBEXUS Connector in one of two ways:
 
 Follow these instructions to download and install IBEXUS connector in your environment. Releases are available in two kinds: an executable file or a container image. Both kinds support command line tool and REST API usage of IBEXUS Connector.
 
-### Executable file
-
-Download the executable binary at <https://github.com/ibexus-platform/ibexus-connector/releases>. At the moment, only Unix 64bit is supported. Unpack the `.zip` file and move the contained executable to a location of your choice, preferrably `/usr/local/bin` or some other location in your shell's `PATH`. Run the binary from your terminal with `ibexus-connector`. The binary supports both the command line tool and the REST API modes of IBEXUS Connector. The executable has extensive documentation available. Get started by executing `ibexus-connector --help` in your terminal.
-
 ### Container image
 
 Access the image at Docker Hub: <https://hub.docker.com/r/ibexus/ibexus-connector>.
@@ -46,6 +42,10 @@ Refer to the interactive documentation in order to find out more about all possi
 ### Command line tool usage
 
 Connect to your container via a shell to use ibexus-connector on the command line. The executable is located at `/usr/local/bin/ibexus-connector`.
+
+### Executable file
+
+Download the executable binary at <https://github.com/ibexus-platform/ibexus-connector/releases>. At the moment, only Unix 64bit is supported. Unpack the `.zip` file and move the contained executable to a location of your choice, preferrably `/usr/local/bin` or some other location in your shell's `PATH`. Run the binary from your terminal with `ibexus-connector`. The binary supports both the command line tool and the REST API modes of IBEXUS Connector. The executable has extensive documentation available. Get started by executing `ibexus-connector --help` in your terminal.
 
 ## Documentation
 
