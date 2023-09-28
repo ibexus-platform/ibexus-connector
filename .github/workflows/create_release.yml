@@ -5,11 +5,12 @@ on:
     tags:
       - "v*"
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
       
 jobs:
   release:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
     
