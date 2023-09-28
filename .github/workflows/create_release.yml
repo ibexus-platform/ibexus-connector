@@ -1,4 +1,4 @@
-name: create release, add assets and publish to docker hub
+name: Create and distribute release
 
 on:
   push:
