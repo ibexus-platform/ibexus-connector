@@ -10,10 +10,12 @@ Welcome to IBEXUS! This IBEXUS Connector is used access the IBEXUS platform. It 
 - **Integration with secret managers** so far, AWS Secrets Manager and local file storage are implemented
 - **Integrated sandbox** for testing and development, use the integrated sandbox environment to simulate all interactions locally
 
+## How to connect to the IBEXUS platform
+
 You can use IBEXUS Connector in one of two ways:
 
-- Command line tool: use IBEXUS Connector as a command line utility for testing and development. Secrets are stored on your filesystem, do not use for production.
-- REST API: run the IBEXUS Connector as a docker container image in your environment and use it to connect to the IBEXUS platform.
+- **Command line tool** use IBEXUS Connector as a command line utility for testing and development. Secrets are stored on your filesystem, do not use for production.
+- **REST API** run the IBEXUS Connector as a docker container image in your environment and use it to connect to the IBEXUS platform.
 
 ## Download and installation
 
