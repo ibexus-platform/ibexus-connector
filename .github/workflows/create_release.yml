@@ -34,7 +34,8 @@ jobs:
       uses: shogo82148/actions-upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: assets/ibexus-connector-${VERSION}-x86_64-linux.zip
+        asset_path: assets/ibexus-connector-*.zip
+        overwrite: true
 
     - name: Push image to Docker Hub
       run: |
