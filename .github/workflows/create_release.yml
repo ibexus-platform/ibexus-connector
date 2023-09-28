@@ -37,8 +37,8 @@ jobs:
 
     - name: Push image to Docker Hub
       run: |
-        docker login -u "ibexus" -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} 
-        docker load < 
+        echo {{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u "ibexus" --password-stdin
+        docker load < ${{ github.workspace }}/assets/ibexus-connector-image-${VERSION}.tar
         docker push ibexus/ibexus-connector:${VERSION}
 
     - name: Docker Hub Description
