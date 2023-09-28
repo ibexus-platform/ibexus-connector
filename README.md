@@ -35,11 +35,11 @@ In order for the image to start up correctly, you have to set at least one envir
 - `IBEXUS_SANDBOX_PATH` can be used to set the directory path to the sandbox storage files. The default location is `~/.ibexus`.
 - `IBEXUS_GRPC_URL` can be used to change the URL that IBEXUS Connector uses to connect to the IBEXIS platform
 
-### REST API documentation
+#### REST API documentation
 
 Refer to the interactive documentation in order to find out more about all possible REST requests by navigating to `/api-docs` at the address of the container. Per default the exposed port is `80`.
 
-### Command line tool usage
+#### Command line tool usage
 
 Connect to your container via a shell to use ibexus-connector on the command line. The executable is located at `/usr/local/bin/ibexus-connector`.
 
