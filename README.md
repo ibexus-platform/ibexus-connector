@@ -10,6 +10,8 @@ Welcome to IBEXUS! This IBEXUS Connector is used access the IBEXUS platform. It 
 - **Integration with secret managers** so far, AWS Secrets Manager and local file storage are implemented
 - **Integrated sandbox** for testing and development, use the integrated sandbox environment to simulate all interactions locally
 
+Go to <https://ibexus.io> for more information about the IBEXUS platform. Go to <https://github.com/ibexus-platform/ibexus-connector> for the latest version of this software. Contact [developer@ibexus.io](mailto:developer@ibexus.io) with any questions you might have.
+
 ## How to connect to the IBEXUS platform
 
 You can use IBEXUS Connector in one of two ways:

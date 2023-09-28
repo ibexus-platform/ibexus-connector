@@ -8,4 +8,4 @@
 
 ## Reporting a Vulnerability
 
-Please contact developer@ibexus.io to discuss to how proceed.
+Please contact <developer@ibexus.io> to discuss to how proceed.
