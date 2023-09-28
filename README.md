@@ -25,7 +25,7 @@ Download the executable binary for your platform from XXXXXXXXXXXXXXXXX. At the 
 
 ### Container image
 
-Access the image at Docker Hub <https://hub.docker.com/r/ibexus/ibexus-connector>.
+Access the image at Docker Hub: <https://hub.docker.com/r/ibexus/ibexus-connector>.
 
 #### Environment variables
 
