@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
 
 # permissions:
 #   contents: write
@@ -18,33 +19,33 @@ jobs:
       with:
         lfs: true
 
-    - name: Get release version
-      run: |
-        VERSION=${GITHUB_REF_NAME#v}
-        echo Version: $VERSION
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-        # use as ${VERSION}
+    # - name: Get release version
+    #   run: |
+    #     VERSION=${GITHUB_REF_NAME#v}
+    #     echo Version: $VERSION
+    #     echo "VERSION=$VERSION" >> $GITHUB_ENV
+    #     # use as ${VERSION}
 
-    - name: Create a Release
-      id: create_release
-      uses: shogo82148/actions-create-release@v1
+    # - name: Create a Release
+    #   id: create_release
+    #   uses: shogo82148/actions-create-release@v1
 
-    - name: Upload Assets
-      uses: shogo82148/actions-upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{ github.workspace }}/assets/ibexus-connector-${VERSION}-x86_64-linux.zip
+    # - name: Upload Assets
+    #   uses: shogo82148/actions-upload-release-asset@v1
+    #   with:
+    #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+    #     asset_path: ${{ github.workspace }}/assets/ibexus-connector-${VERSION}-x86_64-linux.zip
 
     - name: Push image to Docker Hub
       run: |
-        echo "{{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | docker login -u "ibexus" --password-stdin
+        echo {{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u "ibexus" --password-stdin
         docker load < ${{ github.workspace }}/assets/ibexus-connector-image-${VERSION}.tar
         docker push ibexus/ibexus-connector:${VERSION}
 
-    - name: Docker Hub Description
-      uses: peter-evans/dockerhub-description@v3
-      with:
-        username: ibexus
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-        repository: ibexus/ibexus-connector
+    # - name: Docker Hub Description
+    #   uses: peter-evans/dockerhub-description@v3
+    #   with:
+    #     username: ibexus
+    #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    #     repository: ibexus/ibexus-connector
         
