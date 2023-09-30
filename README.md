@@ -30,12 +30,10 @@ Access the image at Docker Hub: <https://hub.docker.com/r/ibexus/ibexus-connecto
 #### Environment variables
 
 - `IBEXUS_API_KEYS` can be set to a list of comma-separated keys that should allow access to the API. The API is not secured if this variable is not set.
-- `IBEXUS_SECRETS_STORAGE` should be set to the secrets storage type that is being used. Default is a non-secure file-based storage (`file`). Set the environment variable to `aws-secrets-manager` to enable AWS secrets manager support.
+- `IBEXUS_SECRETS_STORAGE` should be set to the secrets storage type that is being used. Default is a non-secure file-based storage at `/etc/secrets.json`. Set the environment variable to `aws-secrets-manager` to enable AWS secrets manager support.
 - `IBEXUS_PORT` can be used to set a non-default port. The default port is `80`.
-- `IBEXUS_SECRETS_PATH` can be used to set the directory path to the secrets storage file. The default location is `~/.ibexus`.
-- `IBEXUS_SANDBOX` enables the built-in sandbox if it is present (the value is ignored). If the sandbox is enabled, all requests go to a sandbox implementation of the IBEXUS platform.
-- `IBEXUS_SANDBOX_PATH` can be used to set the directory path to the sandbox storage files. The default location is `~/.ibexus`.
-- `IBEXUS_GRPC_URL` can be used to change the URL that IBEXUS Connector uses to connect to the IBEXIS platform
+- `IBEXUS_SANDBOX` enables the built-in sandbox if set to "true". If the sandbox is enabled, all requests go to a sandbox implementation of the IBEXUS platform.
+- `IBEXUS_GRPC_URL` can be used to change the URL that IBEXUS Connector uses to connect to the IBEXIS platform.
 
 #### REST API documentation
 
