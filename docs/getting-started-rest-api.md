@@ -18,8 +18,6 @@ docker run -it -p 8089:80 -e IBEXUS_SANDBOX=true ibexus/ibexus-connector:latest
 
 To browse the documentation, open <http://localhost:8089/api-docs> in your browser. You will find an [OpenAPI](https://www.openapis.org/) compatible specification and documentation.
 
-<img width="1250" alt="ibexus-connector-rest-api-docs-screenshot" src="https://github.com/ibexus-platform/ibexus-connector/assets/67227/26e914ab-c44c-4ace-b722-89aae8a4417e">
-
 ![ibexus-connector-rest-api-docs-screenshot](https://github.com/ibexus-platform/ibexus-connector/assets/67227/ce88e985-18a2-42fd-992a-cd011b6a9d1f)
 
 ## Initializing the sandbox
