@@ -20,7 +20,7 @@ To browse the documentation, open <http://localhost:8089/api-docs> in your brows
 
 <img width="1250" alt="ibexus-connector-rest-api-docs-screenshot" src="https://github.com/ibexus-platform/ibexus-connector/assets/67227/26e914ab-c44c-4ace-b722-89aae8a4417e">
 
-![ibexus-connector-rest-api-docs-screenshot](https://github.com/ibexus-platform/ibexus-connector/assets/67227/f874036e-955c-4ef1-8b97-e8e33d2deb0d)
+![ibexus-connector-rest-api-docs-screenshot](https://github.com/ibexus-platform/ibexus-connector/assets/67227/ce88e985-18a2-42fd-992a-cd011b6a9d1f)
 
 ## Initializing the sandbox
 
