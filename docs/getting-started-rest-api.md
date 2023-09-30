@@ -2,7 +2,7 @@ docker run -it -p 8089:80 -e IBEXUS_SANDBOX=true -v dockervolume:/etc/ibexus ibe
 
 # ![logo-blue-back-boxed](https://github.com/ibexus-platform/ibexus-connector/assets/67227/d64936b4-372b-4719-b841-2c839936ddb8)
 
-## Getting started with the IBEXUS Connector command line tool
+## Getting started with the IBEXUS Connector REST API
 
 To get comfortable with the IBEXUS platform, please follow along whith this quick tutorial. If you have any further question, please do not hesitate to contact [developer@ibexus.io](mailto:developer@ibexus.io). In order to complete this tutorial, you need to have the Docker container runtime available on your platform.
 
@@ -19,28 +19,13 @@ docker run -it -p 8089:80 -e IBEXUS_SANDBOX=true ibexus/ibexus-connector:latest
 To browse the documentation, open <http://localhost:8089/api-docs> in your browser. You will find an [OpenAPI](https://www.openapis.org/) compatible specification and documentation.
 
 ![ibexus-connector-rest-api-docs-screenshot](https://github.com/ibexus-platform/ibexus-connector/assets/67227/ce88e985-18a2-42fd-992a-cd011b6a9d1f)
-![ibexus-connector-rest-api-docs-screenshot](https://github.com/ibexus-platform/ibexus-connector/assets/67227/0f3570aa-a3bb-491e-8e91-b04933d5c932)
 
 ## Initializing the sandbox
 
-IBEXUS Connector has a built-in sandbox functionality, which allows you to simulate and test every feature of the IBEXUS platform within a local simulation. In sandbox mode, no data leaves your machine, you do not even need an active internet connection. All data is stored on your local disk. The default storage path is `~/.ibexus`. To get started using the sandbox, initialize the sandbox with the command `ibexus-connector sandbox initialize`, which will produce the following output. Note that the sandbox will always use the same invite codes, which makes automation easier.
+IBEXUS Connector has a built-in sandbox functionality, which allows you to simulate and test every feature of the IBEXUS platform within a local simulation. In sandbox mode, no data leaves your machine, you do not even need an active internet connection if you run the docker container locally. All data is stored in the docker image at `/etc/ibexus`. To get started using the sandbox, initialize the sandbox with a POST request. 
 
 ```console
-The sandbox was reset to an empty state. The following invite codes for the different chains are now available:
 
-Chain: Near
-    EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj
-    uguvMzUSJDpWgmAeafQEZzrEVXMrzDPZ8GALo6nLfDT
-    Auevovj8Hz2eA9bsZotN7cMjFeZwnGKFt39sCm5ZUZTd
-    7N1cAWLGUn7MARVwBqsXs7sbAiL2uoApKkPPhiSfhTjk
-    CSty5h41kV1Qj7UzM7mpsdzy6ZgQwiQ57Bm7MmoDAH91
-
-Chain: Concordium
-    CnjVvp4v9zCNwXW6FgUQAczA5GfjVZJCHY3WbEXaJwFS
-    6Fxop3fgLyqBc7YtBxgUaFnZC3KYPvCELtSoR1mKu6yg
-    Gd1MTrkLyMAtQX8TZ2oDWnNW68doM573v1GNT2RBcbFS
-    CsffEHk49PVs1j6SuTsH6JgHZTuiuZE4GNosNWSodfo2
-    DVXeFL5ngkYyfhrrKGojydk1VuDDPeJuJ3XoMw5drUh8
 ```
 
 ## Create account with invite code
