@@ -1,5 +1,3 @@
-docker run -it -p 8089:80 -e IBEXUS_SANDBOX=true -v dockervolume:/etc/ibexus ibexus/ibexus-connector:0.1.0
-
 # ![logo-blue-back-boxed](https://github.com/ibexus-platform/ibexus-connector/assets/67227/d64936b4-372b-4719-b841-2c839936ddb8)
 
 ## Getting started with the IBEXUS Connector REST API
@@ -22,10 +20,12 @@ To browse the documentation, open <http://localhost:8089/api-docs> in your brows
 
 ## Initializing the sandbox
 
-IBEXUS Connector has a built-in sandbox functionality, which allows you to simulate and test every feature of the IBEXUS platform within a local simulation. In sandbox mode, no data leaves your machine, you do not even need an active internet connection if you run the docker container locally. All data is stored in the docker image at `/etc/ibexus`. To get started using the sandbox, initialize the sandbox with a POST request. 
+IBEXUS Connector has a built-in sandbox functionality, which allows you to simulate and test every feature of the IBEXUS platform within a local simulation. In sandbox mode, no data leaves your machine, you do not even need an active internet connection if you run the docker container locally. All data is stored in the docker image at `/etc/ibexus`. To get started using the sandbox, initialize the sandbox with a HTTP request. The JSON response contains invite codes for each supported blockchain that can be used to create an account, which we will do in the next step. Note that the sandbox will always use the same invite codes, which makes automation easier.
 
 ```console
+$ curl -X POST "localhost:8089/sandbox/initialize"
 
+{"Near":["EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj","uguvMzUSJDpWgmAeafQEZzrEVXMrzDPZ8GALo6nLfDT","Auevovj8Hz2eA9bsZotN7cMjFeZwnGKFt39sCm5ZUZTd","7N1cAWLGUn7MARVwBqsXs7sbAiL2uoApKkPPhiSfhTjk","CSty5h41kV1Qj7UzM7mpsdzy6ZgQwiQ57Bm7MmoDAH91"],"Concordium":["CnjVvp4v9zCNwXW6FgUQAczA5GfjVZJCHY3WbEXaJwFS","6Fxop3fgLyqBc7YtBxgUaFnZC3KYPvCELtSoR1mKu6yg","Gd1MTrkLyMAtQX8TZ2oDWnNW68doM573v1GNT2RBcbFS","CsffEHk49PVs1j6SuTsH6JgHZTuiuZE4GNosNWSodfo2","DVXeFL5ngkYyfhrrKGojydk1VuDDPeJuJ3XoMw5drUh8"]}
 ```
 
 ## Create account with invite code
@@ -37,65 +37,51 @@ Now you can create an account using one of the provided invite codes. On IBEXUS 
 - **Executors** execute steps of processes
 - **Designers** currently not used
 
-When you create a new account, you need to supply one of the invite codes. Each code can only be used once to create an account. Run the command `ibexus-connector account create --help` to display help on the required parameters. For the sandbox the fields parameters `email` and `phone` can be assigned placeholder values. Create an account using the following command.
+When you create a new account, you need to supply one of the invite codes. Each code can only be used once to create an account. Create an account using the following request, including placedholder contact data.
 
 ```console
-ibexus-connector account create --sandbox --chain near --email example@example.com --phone 123123123 --invite-code EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj
+$ curl -X POST "http://localhost:8089/account" -H "content-type: application/json" -d '{"invite":"EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj","chain":"near","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
+
+{"key":"<ACCOUNT_KEY>"}
 ```
 
-This command will produce something similar to the following output:
-
-```console
-Key of new account: <ACCOUNT_KEY>
-The signing key of the new account is available in the ibexus-connector secrets file (default location is ~/.ibexus/secrets.json).
-```
-
-The account key, symbolized in the output with `<ACCOUNT_KEY>`, will be different each time you create a new account. It is the unique primary identifier for the account. When IBEXUS Connector created the account, it also created a secret signing key for it, which was stored in the secrets file. To display the contents of the secrets file issue the following command in your terminal: `cat ~/.ibexus/secrets.json`. The file contains a JSON map, mapping keys of accounts and users to their respective signing keys. Secrets stored in the file are automatically loaded if required by a command.
+The account key, symbolized in the output with `<ACCOUNT_KEY>`, will be different each time you create a new account. It is the unique primary identifier for the account. When IBEXUS Connector created the account, it also created a secret signing key for it, which was stored in the secrets storage of the container. Stored secrets are automatically loaded if required by a command.
 
 ## Create user with role manager
 
-Now we can create the users we need to be able to create and execute a process. First we create a manager user. The manager user will sign the requests to create a user with the executor role and one with the creator role. One again, the `email` and `phone` fields can be set to placeholder values when using the sandbox. First, create a manager user with the following command. Replace `<ACCOUNT_KEY>` with the account key of the account that you created. Note that we are just supplying the key here. The secret of the account was stored in the `secrets.json` file and will be looked up there. You can also supply a secret as an environment variable, using the key as the name of the variable, prefixed with "IBEXUS_", and the signing key as the value.
+Now we can create the users we need to be able to create and execute a process. First we create a manager user. The manager user will sign the requests to create a user with the executor role and one with the creator role. One again, the `email` and `phone` fields can be set to placeholder values when using the sandbox. First, create a manager user with the following command. Replace `<ACCOUNT_KEY>` with the account key of the account that you created. Note that we are just supplying the key here. The secret of the account was stored in the secrets storage and will be looked up there.
 
 ```console
-ibexus-connector user create --sandbox --chain near --role manager --email example@example.com --phone 123123123 --account-key <ACCOUNT_KEY>
+$ curl -X POST "http://localhost:8089/user" -H "content-type: application/json" -d '{"creator":"<ACCOUNT_KAEY>","chain":"near","role":"manager","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
+
+{"key":"<MANAGER_KEY>"}
 ```
 
-This command will produce something similar to the following output. Note the key of the manager user, you need it in the next step.
-
-```console
-Key of new user: <MANAGER_KEY>
-The signing key of the new user is available in the ibexus-connector secrets file (default location is ~/.ibexus/secrets.json).
-```
+Note the key of the manager user that is returned in the response, you need it in the next step.
 
 ## Create creator user
 
 Creator users are authorized to create processes on the IBEXUS platform (and in the sandbox). To create a process, we first need to create a user that can send a create process message. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user from the last step.
 
 ```console
-ibexus-connector user create --sandbox --chain near --role creator --email example@example.com --phone 123123123 --manager-key <MANAGER_KEY>
-```
+$ curl -X POST "http://localhost:8089/user" -H "content-type: application/json" -d '{"creator":"MANAGER_KEY","chain":"near","role":"creator","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
 
-This command will produce something similar to the following output. Note the key of the creator user, you need it later.
+{"key":"<CREATOR_KEY>"}
+``````
 
-```console
-Key of new account: <CREATOR_KEY>
-The signing key of the new user is available in the ibexus-connector secrets file (default location is ~/.ibexus/secrets.json).
-```
+Note the key of the creator user that is returned in the response, you need it later.
 
 ## Create executor user
 
-Create an executor user authorized to exectute process steps. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user.
+Create an executor user authorized to execute process steps. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user.
 
 ```console
-ibexus-connector user create --sandbox --chain near --role executor --email example@example.com --phone 123123123 --manager-key <MANAGER_KEY>
-```
+$ curl -X POST "http://localhost:8089/user" -H "content-type: application/json" -d '{"executor":"MANAGER_KEY","chain":"near","role":"executor","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
 
-This command will produce something similar to the following output. Note the key of the creator user, you need it later.
+{"key":"<EXECUTOR_KEY>"}
+``````
 
-```console
-Key of new account: <EXECUTOR_KEY>
-The signing key of the new user is available in the ibexus-connector secrets file (default location is ~/.ibexus/secrets.json).
-```
+Note the key of the executor user that is returned in the response, you need it later.
 
 ## Create a process
 
@@ -161,16 +147,32 @@ Additionally you need to define which user will be assigned to each role defined
 ]
 ```
 
-We just need a name for the process and now we can create it in the sandbox. Issue the following command to create a process. Replace `<EXECUTOR_KEY>` in the mandates JSON with the key of your executor user. Also replace <CREATOR_KEY> with the key of your creator user. The whole command is one line, take care that you paste it into your shell as one line.
+We just need a name for the process and now we can create it in the sandbox. Issue the following request to create a process. Replace `<EXECUTOR_KEY>` in the mandates JSON with the key of your executor user. Also replace <CREATOR_KEY> with the key of your creator user. The whole curl command is one line, take care that you paste it into your shell as one line.
 
 ```console
-ibexus-connector process create --sandbox --chain near --creator-key AiC2RYD3HFKuqEHfJpVYN2 --design '{"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}],"steps":{"key":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"String"}],"timeout":178,"share":{"key":"Vm7ypzTh7eEsaRsGET44j","type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"reject":{"key":"7S6TpwJwWJLRd8sSzY4Myt","type":{"end":{}}},"accept":{"key":"5MWqXhHd3uUnZnSTHF9eeP","type":{"end":{}}}}}},"cancel":{"key":"GBU5ZEqagyMzFrEF5SkCEP","type":{"end":{}}}}}}}' --mandates '[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"5AcqTKZEk5Tj2qzg5baavm"}]' --name "Example Process"
+$ curl -X POST "http://localhost:8089/process" -H "content-type: application/json" -d '{"user":"<CREATOR_KEY>","chain":"near","name":"Test Process","design":{"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}],"steps":{"key":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"String"}],"timeout":178,"share":{"key":"Vm7ypzTh7eEsaRsGET44j","type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"reject":{"key":"7S6TpwJwWJLRd8sSzY4Myt","type":{"end":{}}},"accept":{"key":"5MWqXhHd3uUnZnSTHF9eeP","type":{"end":{}}}}}},"cancel":{"key":"GBU5ZEqagyMzFrEF5SkCEP","type":{"end":{}}}}}}},"mandates":[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"<EXECUTOR_KEY>"}]}'
+
+{"key":"<PROCESS_KEY>"}
 ```
 
-The execution of this command should result in an output similar to the one below. Note the key of the created process, you need it later.
+Note the key of the process that is returned in the response, you need it later.
+
+## Get process, process state and process history
+
+Use these commands to retrieve the process definition itself, the current state of the process, as well as the list of already processed actions. Actual key values are replace with the <KEY_NAMES> in the requests and in the responses.
 
 ```console
-Key of new process: DjNVxDGLbnEbnFyzpKDRWy
+$ curl -X GET "http://localhost:8089/process/<PROCESS_KEY>?chain=near"
+
+{"key":"<PROCESS_KEY>","name":"Test Process","account":"<ACCOUNT_KEY>","owner":"<CREATOR_KEY>","design":{"steps":{"key":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"string"}],"timeout":178,"share":{"key":"Vm7ypzTh7eEsaRsGET44j","type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"accept":{"key":"5MWqXhHd3uUnZnSTHF9eeP","type":{"end":{}}},"reject":{"key":"7S6TpwJwWJLRd8sSzY4Myt","type":{"end":{}}}}}},"cancel":{"key":"GBU5ZEqagyMzFrEF5SkCEP","type":{"end":{}}}}}},"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}]},"mandates":[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"<EXECUTOR_KEY>"}]}
+
+$ curl -X GET "http://localhost:8089/process/<PROCESS_KEY>/state?chain=near"
+
+{"key":"<PROCESS_KEY>","position":"Vm7ypzTh7eEsaRsGET44j","called_by":[],"scope_states":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_sets":[{"timestamp":1696117359254,"step":"Na6EczbX5yvuS59hRb3JJ","user":"<EXECUTOR_KEY>","data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"string"}}],"verified_by":[]}]}}}],"step_states":[{"step":"Vm7ypzTh7eEsaRsGET44j","type":{"verify":{"attempts":0,"reason":"Reason"}}},{"step":"GBU5ZEqagyMzFrEF5SkCEP","type":{"end":{}}},{"step":"7S6TpwJwWJLRd8sSzY4Myt","type":{"end":{}}},{"step":"5MWqXhHd3uUnZnSTHF9eeP","type":{"end":{}}},{"step":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{}}}]}
+
+$ curl -X GET "http://localhost:8089/process/<PROCESS_KEY>/history?chain=near"
+
+{"key":"<PROCESS_KEY>","messages":[{"signature":"\"3dTdF4rG5LCQyba9JB5PzqUKDFVXyfTqPWK9DounLkKHB5gnWJ1xvUcPNWX2sHirtZy9zfGTxcRbvQxueuZj3ctb\"","message_bytes":"\"WmHunGAN57fedbQGxZjPfKRUCCCp4ZvzTVmmf87TZqjMcSg2VKdkVwyqrBocM7doiVt53WQgjtiv8UW7G2jCNWMS6ujmCQQP3cVV4dLjHBMaxAMhjhswFJz8BvSDcewHSrAm1Ld6W86GUR5qJTez8NH3DJZm3waNJmbXCFRbWufzSx1s1atrz\"","signer":{"user":"<EXECUTOR_KEY>"},"message":{"key":"\"XFJ6GTtD8MLAwunLiPvkjp\"","timestamp":1696117359248,"chain":"1","type":{"execute_process":{"process":"<PROCESS_KEY>","step":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{"type":{"share":{"scope_items":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"string"}}]}}}]}}}}}}}}]}
 ```
 
 ## Execute share step of process
@@ -203,19 +205,11 @@ Now that the process has been created, you can execute the first step using the 
 }
 ```
 
-Execute the following command to let your executor user execute the first step of the process. Replace `<EXECUTOR_KEY>` with the key of your executor user and `<PROCESS_KEY>` with the key of the process you created. The step key is the same as in the example data from the last step and should be good as is.
+Execute the following request to let your executor user execute the first step of the process. Replace `<EXECUTOR_KEY>` with the key of your executor user and `<PROCESS_KEY>` with the key of the process you created. The step key is the same as in the example data from the last step and should be good as is. Note that execution requests are asynchrounous. To check successful execution, you need to view the process state or process history.
 
 ```console
-ibexus-connector process execute --sandbox --chain near --executor-key <EXECUTOR_KEY> --process-key <PROCESS_KEY> --step-key Na6EczbX5yvuS59hRb3JJ --action '{"share":{"type":{"share":{"scope_items":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"Test String"}}]}}}]}}}}'
+curl -X POST "http://localhost:8089/process/<PROCESS_KEY>/execute" -H "content-type: application/json" -d '{"user":"<EXECUTOR_KEY>","chain":"near","step":"Na6EczbX5yvuS59hRb3JJ","action":{"share":{"type":{"share":{"scope_items":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"Some Value"}}]}}}]}}}}}'
 ```
-
-You will receive a notice that the execution request has been sent:
-
-```console
-Execution request sent. You can check process state with `ibexus-connector process view_state` and `ibexus-connector process view_history`
-```
-
-You can use the commands given in the message to check on the state and the history data of your process.
 
 ## Execute verify step of process
 
@@ -236,17 +230,9 @@ The next step of the process is a verify step. The caller of this step accepts o
 Execute the following command to execute the next and last step in the process. Replace `<EXECUTOR_KEY>` with the key of your executor user and `<PROCESS_KEY>` with the key of the process you created. The step key is the same as in the example process above and should be good as is.
 
 ```console
-ibexus-connector process execute --sandbox --chain near --executor-key 5AcqTKZEk5Tj2qzg5baavm --process-key DjNVxDGLbnEbnFyzpKDRWy --step-key Vm7ypzTh7eEsaRsGET44j --action '{"verify":{"type":{"accept":{"reason":"All good"}}}}'
+curl -X POST "http://localhost:8089/process/<PROCESS_KEY>/execute" -H "content-type: application/json" -d '{"user":"<EXECUTOR_KEY>","chain":"near","step":"Vm7ypzTh7eEsaRsGET44j","action":{"verify":{"type":{"accept":{"reason":"All good"}}}}}'
 ```
-
-You will receive a notice that the execution request has been sent:
-
-```console
-Execution request sent. You can check process state with `ibexus-connector process view_state` and `ibexus-connector process view_history`
-```
-
-You can use the commands given in the message to check on the state and the history data of your process.
 
 ## Wrapping up
 
-Congratulations, you have run your first collaborative and asserted business process on IBEXUS! Where to go from here: Design your own process or try out the REST API. To start the rest server, execute the command `ibexus-connector server --help` for detailed instructions.
+Congratulations, you have run your first collaborative and asserted business process on IBEXUS! Where to go from here: Design your own process or try out the comand line tool.

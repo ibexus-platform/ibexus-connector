@@ -116,7 +116,7 @@ The signing key of the new user is available in the ibexus-connector secrets fil
 
 ## Create executor user
 
-Create an executor user authorized to exectute process steps. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user.
+Create an executor user authorized to execute process steps. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user.
 
 ```console
 ibexus-connector user create --sandbox --chain near --role executor --email example@example.com --phone 123123123 --manager-key <MANAGER_KEY>

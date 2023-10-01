@@ -50,3 +50,5 @@ Download the executable binary at <https://github.com/ibexus-platform/ibexus-con
 ## Documentation
 
 [Getting started with the IBEXUS Connector command line tool](https://github.com/ibexus-platform/ibexus-connector/blob/main/docs/getting-started-command-line-tool.md)
+
+[Getting started with the IBEXUS Connector REST API](https://github.com/ibexus-platform/ibexus-connector/blob/main/docs/getting-started-rest-api.md)
