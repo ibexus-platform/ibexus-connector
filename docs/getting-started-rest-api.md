@@ -164,15 +164,151 @@ Use these commands to retrieve the process definition itself, the current state 
 ```console
 $ curl -X GET "http://localhost:8089/process/<PROCESS_KEY>?chain=near"
 
-{"key":"<PROCESS_KEY>","name":"Test Process","account":"<ACCOUNT_KEY>","owner":"<CREATOR_KEY>","design":{"steps":{"key":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"string"}],"timeout":178,"share":{"key":"Vm7ypzTh7eEsaRsGET44j","type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"accept":{"key":"5MWqXhHd3uUnZnSTHF9eeP","type":{"end":{}}},"reject":{"key":"7S6TpwJwWJLRd8sSzY4Myt","type":{"end":{}}}}}},"cancel":{"key":"GBU5ZEqagyMzFrEF5SkCEP","type":{"end":{}}}}}},"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}]},"mandates":[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"<EXECUTOR_KEY>"}]}
+{
+  "key": "<PROCESS_KEY>",
+  "name": "Test Process",
+  "account": "<ACCOUNT_KEY>",
+  "owner": "<CREATOR_KEY>",
+  "design": {
+    "steps": {
+      "key": "Na6EczbX5yvuS59hRb3JJ",
+      "type": {
+        "share": {
+          "callers": ["7Kc9KAEmpXex2aihgCgCDM"],
+          "fields": [
+            {
+              "key": "FP4VQzjM4KcwHiS8cj2Xs",
+              "name": "Data field",
+              "scope": "8C2kCzsB2fJy9MiZos1mS",
+              "type": "string"
+            }
+          ],
+          "timeout": 178,
+          "share": {
+            "key": "Vm7ypzTh7eEsaRsGET44j",
+            "type": {
+              "verify": {
+                "callers": ["7Kc9KAEmpXex2aihgCgCDM"],
+                "attempts": 1,
+                "timeout": 122,
+                "accept": {
+                  "key": "5MWqXhHd3uUnZnSTHF9eeP",
+                  "type": { "end": {} }
+                },
+                "reject": {
+                  "key": "7S6TpwJwWJLRd8sSzY4Myt",
+                  "type": { "end": {} }
+                }
+              }
+            }
+          },
+          "cancel": { "key": "GBU5ZEqagyMzFrEF5SkCEP", "type": { "end": {} } }
+        }
+      }
+    },
+    "roles": [{ "key": "7Kc9KAEmpXex2aihgCgCDM", "name": "Execute all steps" }],
+    "scopes": [
+      {
+        "key": "8C2kCzsB2fJy9MiZos1mS",
+        "name": "Public Data",
+        "type": { "public_data": {} }
+      }
+    ]
+  },
+  "mandates": [{ "role": "7Kc9KAEmpXex2aihgCgCDM", "user": "<EXECUTOR_KEY>" }]
+}
+```
 
+```console
 $ curl -X GET "http://localhost:8089/process/<PROCESS_KEY>/state?chain=near"
 
-{"key":"<PROCESS_KEY>","position":"Vm7ypzTh7eEsaRsGET44j","called_by":[],"scope_states":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_sets":[{"timestamp":1696117359254,"step":"Na6EczbX5yvuS59hRb3JJ","user":"<EXECUTOR_KEY>","data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"string"}}],"verified_by":[]}]}}}],"step_states":[{"step":"Vm7ypzTh7eEsaRsGET44j","type":{"verify":{"attempts":0,"reason":"Reason"}}},{"step":"GBU5ZEqagyMzFrEF5SkCEP","type":{"end":{}}},{"step":"7S6TpwJwWJLRd8sSzY4Myt","type":{"end":{}}},{"step":"5MWqXhHd3uUnZnSTHF9eeP","type":{"end":{}}},{"step":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{}}}]}
+{
+  "key": "<PROCESS_KEY>",
+  "position": "Vm7ypzTh7eEsaRsGET44j",
+  "called_by": [],
+  "scope_states": [
+    {
+      "scope": "8C2kCzsB2fJy9MiZos1mS",
+      "type": {
+        "public_data": {
+          "data_sets": [
+            {
+              "timestamp": 1696117359254,
+              "step": "Na6EczbX5yvuS59hRb3JJ",
+              "user": "<EXECUTOR_KEY>",
+              "data_items": [
+                {
+                  "field": "FP4VQzjM4KcwHiS8cj2Xs",
+                  "type": { "string_value": "string" }
+                }
+              ],
+              "verified_by": []
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "step_states": [
+    {
+      "step": "Vm7ypzTh7eEsaRsGET44j",
+      "type": { "verify": { "attempts": 0, "reason": "Reason" } }
+    },
+    { "step": "GBU5ZEqagyMzFrEF5SkCEP", "type": { "end": {} } },
+    { "step": "7S6TpwJwWJLRd8sSzY4Myt", "type": { "end": {} } },
+    { "step": "5MWqXhHd3uUnZnSTHF9eeP", "type": { "end": {} } },
+    { "step": "Na6EczbX5yvuS59hRb3JJ", "type": { "share": {} } }
+  ]
+}
+```
 
+```console
 $ curl -X GET "http://localhost:8089/process/<PROCESS_KEY>/history?chain=near"
 
-{"key":"<PROCESS_KEY>","messages":[{"signature":"\"3dTdF4rG5LCQyba9JB5PzqUKDFVXyfTqPWK9DounLkKHB5gnWJ1xvUcPNWX2sHirtZy9zfGTxcRbvQxueuZj3ctb\"","message_bytes":"\"WmHunGAN57fedbQGxZjPfKRUCCCp4ZvzTVmmf87TZqjMcSg2VKdkVwyqrBocM7doiVt53WQgjtiv8UW7G2jCNWMS6ujmCQQP3cVV4dLjHBMaxAMhjhswFJz8BvSDcewHSrAm1Ld6W86GUR5qJTez8NH3DJZm3waNJmbXCFRbWufzSx1s1atrz\"","signer":{"user":"<EXECUTOR_KEY>"},"message":{"key":"\"XFJ6GTtD8MLAwunLiPvkjp\"","timestamp":1696117359248,"chain":"1","type":{"execute_process":{"process":"<PROCESS_KEY>","step":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{"type":{"share":{"scope_items":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"string"}}]}}}]}}}}}}}}]}
+{
+  "key": "<PROCESS_KEY>",
+  "messages": [
+    {
+      "signature": "\"3dTdF4rG5LCQyba9JB5PzqUKDFVXyfTqPWK9DounLkKHB5gnWJ1xvUcPNWX2sHirtZy9zfGTxcRbvQxueuZj3ctb\"",
+      "message_bytes": "\"WmHunGAN57fedbQGxZjPfKRUCCCp4ZvzTVmmf87TZqjMcSg2VKdkVwyqrBocM7doiVt53WQgjtiv8UW7G2jCNWMS6ujmCQQP3cVV4dLjHBMaxAMhjhswFJz8BvSDcewHSrAm1Ld6W86GUR5qJTez8NH3DJZm3waNJmbXCFRbWufzSx1s1atrz\"",
+      "signer": { "user": "<EXECUTOR_KEY>" },
+      "message": {
+        "key": "\"XFJ6GTtD8MLAwunLiPvkjp\"",
+        "timestamp": 1696117359248,
+        "chain": "1",
+        "type": {
+          "execute_process": {
+            "process": "<PROCESS_KEY>",
+            "step": "Na6EczbX5yvuS59hRb3JJ",
+            "type": {
+              "share": {
+                "type": {
+                  "share": {
+                    "scope_items": [
+                      {
+                        "scope": "8C2kCzsB2fJy9MiZos1mS",
+                        "type": {
+                          "public_data": {
+                            "data_items": [
+                              {
+                                "field": "FP4VQzjM4KcwHiS8cj2Xs",
+                                "type": { "string_value": "string" }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
 ```
 
 ## Execute share step of process

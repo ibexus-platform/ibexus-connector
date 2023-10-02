@@ -4,6 +4,10 @@
 
 To get comfortable with the IBEXUS platform, please follow along whith this quick tutorial. If you have any further question, please do not hesitate to contact [developer@ibexus.io](mailto:developer@ibexus.io). In order to complete this tutorial, you need to have the IBEXUS Connector command line tool installed on a machine of your choice, as well as access to the `ibexus-connector` binary in a terminal. Internet access is not required for this simple tutorial, as we will be using the built-in sandbox environment.
 
+## Running the command line tool in a docker container
+
+If you are not on a Linux system you can use Docker to run IBEXUS Connector in a container image. Install Docker and start a terminal session in an Ubuntu Docker container with the following command: `docker run -it -p 8089:8089 ubuntu:latest /bin/bash`. In the new terminal session, run `apt update` and then `apt install -y zip wget` to install the necessary tools to download and unpack IBEXUS Connector. Download and unpack IBEXUS Connector 0.1.0 with `wget https://github.com/ibexus-platform/ibexus-connector/releases/download/v0.1.0/ibexus-connector-0.1.0-x86_64-linux.zip && unzip ibexus-connector-0.1.0-x86_64-linux.zip && mv ibexus-connector /usr/local/bin`. Now you can run IBEXUS Connector with `ibexus-connector` in your Docker container.
+
 ## Displaying available commands
 
 To get a list of available command, execute `ibexus-connector`. This will show you a list of available commands and options, as shown below. Use `ibexus-connector --help` to get a more detailed response. There is more detailed help available for every command. To display detailed help for a specific command, use e.g. `ibexus-connector user create --help`.
@@ -193,10 +197,10 @@ Additionally you need to define which user will be assigned to each role defined
 ]
 ```
 
-We just need a name for the process and now we can create it in the sandbox. Issue the following command to create a process. Replace `<EXECUTOR_KEY>` in the mandates JSON with the key of your executor user. Also replace <CREATOR_KEY> with the key of your creator user. The whole command is one line, take care that you paste it into your shell as one line.
+We just need a name for the process and now we can create it in the sandbox. Issue the following command to create a process. Replace `<EXECUTOR_KEY>` in the mandates JSON with the key of your executor user. Also replace `<CREATOR_KEY>` with the key of your creator user. The whole command is one line, take care that you paste it into your shell as one line.
 
 ```console
-ibexus-connector process create --sandbox --chain near --creator-key AiC2RYD3HFKuqEHfJpVYN2 --design '{"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}],"steps":{"key":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"String"}],"timeout":178,"share":{"key":"Vm7ypzTh7eEsaRsGET44j","type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"reject":{"key":"7S6TpwJwWJLRd8sSzY4Myt","type":{"end":{}}},"accept":{"key":"5MWqXhHd3uUnZnSTHF9eeP","type":{"end":{}}}}}},"cancel":{"key":"GBU5ZEqagyMzFrEF5SkCEP","type":{"end":{}}}}}}}' --mandates '[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"5AcqTKZEk5Tj2qzg5baavm"}]' --name "Example Process"
+ibexus-connector process create --sandbox --chain near --creator-key <CREATOR_KEY> --design '{"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}],"steps":{"key":"Na6EczbX5yvuS59hRb3JJ","type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"String"}],"timeout":178,"share":{"key":"Vm7ypzTh7eEsaRsGET44j","type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"reject":{"key":"7S6TpwJwWJLRd8sSzY4Myt","type":{"end":{}}},"accept":{"key":"5MWqXhHd3uUnZnSTHF9eeP","type":{"end":{}}}}}},"cancel":{"key":"GBU5ZEqagyMzFrEF5SkCEP","type":{"end":{}}}}}}}' --mandates '[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"<EXECUTOR_KEY>"}]' --name "Example Process"
 ```
 
 The execution of this command should result in an output similar to the one below. Note the key of the created process, you need it later.
@@ -268,7 +272,7 @@ The next step of the process is a verify step. The caller of this step accepts o
 Execute the following command to execute the next and last step in the process. Replace `<EXECUTOR_KEY>` with the key of your executor user and `<PROCESS_KEY>` with the key of the process you created. The step key is the same as in the example process above and should be good as is.
 
 ```console
-ibexus-connector process execute --sandbox --chain near --executor-key 5AcqTKZEk5Tj2qzg5baavm --process-key DjNVxDGLbnEbnFyzpKDRWy --step-key Vm7ypzTh7eEsaRsGET44j --action '{"verify":{"type":{"accept":{"reason":"All good"}}}}'
+ibexus-connector process execute --sandbox --chain near --executor-key <EXECUTOR_KEY> --process-key <PROCESS_KEY> --step-key Vm7ypzTh7eEsaRsGET44j --action '{"verify":{"type":{"accept":{"reason":"All good"}}}}'
 ```
 
 You will receive a notice that the execution request has been sent:
