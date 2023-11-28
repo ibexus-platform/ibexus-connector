@@ -76,7 +76,7 @@ Note the key of the creator user that is returned in the response, you need it l
 Create an executor user authorized to execute process steps. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user.
 
 ```console
-$ curl -X POST "http://localhost:8089/user" -H "content-type: application/json" -d '{"executor":"MANAGER_KEY","chain":"near","role":"executor","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
+$ curl -X POST "http://localhost:8089/user" -H "content-type: application/json" -d '{"creator":"MANAGER_KEY","chain":"near","role":"executor","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
 
 {"key":"<EXECUTOR_KEY>"}
 ``````

@@ -2,9 +2,7 @@
 
 ## End-User License Agreement (EULA) of IBEXUS Connector
 
-This End-User License Agreement ("EULA") is a legal agreement between you and blueocean IMPACT AG. Our EULA was created by EULA Template for IBEXUS Connector.
-
-This EULA agreement governs your acquisition and use of our IBEXUS Connector software ("Software") directly from blueocean IMPACT AG or indirectly through a blueocean IMPACT AG authorized reseller or distributor (a "Reseller").
+This End-User License Agreement ("EULA") is a legal agreement between you and blueocean IMPACT AG. This EULA agreement governs your acquisition and use of our IBEXUS Connector software ("Software") directly from blueocean IMPACT AG or indirectly through a blueocean IMPACT AG authorized reseller or distributor (a "Reseller").
 
 Please read this EULA agreement carefully before completing the installation process and using the IBEXUS Connector software. It provides a license to use the IBEXUS Connector software and contains warranty information and liability disclaimers.
 
