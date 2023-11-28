@@ -38,3 +38,4 @@ jobs:
         echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u "ibexus" --password-stdin
         docker load < ${{ github.workspace }}/assets/ibexus-connector-image-${VERSION}.tar
         docker push ibexus/ibexus-connector:${VERSION}
+        docker push ibexus/ibexus-connector
