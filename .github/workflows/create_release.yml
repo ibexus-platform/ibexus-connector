@@ -31,7 +31,8 @@ jobs:
         artifactErrorsFailBuild: true
         artifacts: assets/ibexus-connector-*.zip
         artifactContentType: application/zip
-        makeLatest: true          
+        makeLatest: true   
+        tag: v0.1.1
 
     # - name: Create a Release
     #   id: create_release
