@@ -23,16 +23,25 @@ jobs:
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         # use as ${VERSION}
 
-    - name: Create a Release
-      id: create_release
-      uses: shogo82148/actions-create-release@v1
-
-    - name: Upload Assets
-      uses: shogo82148/actions-upload-release-asset@v1
+    - name: Create Release
+      uses: ncipollo/release-action@v1.13.0
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: assets/ibexus-connector-*.zip
-        overwrite: true
+        allowUpdates: true
+        artifactErrorsFailBuild: true
+        artifacts: assets/ibexus-connector-*.zip
+        artifactContentType: application/zip
+        makeLatest: true          
+
+    # - name: Create a Release
+    #   id: create_release
+    #   uses: shogo82148/actions-create-release@v1
+
+    # - name: Upload Assets
+    #   uses: shogo82148/actions-upload-release-asset@v1
+    #   with:
+    #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+    #     asset_path: assets/ibexus-connector-*.zip
+    #     overwrite: true
 
     - name: Push image to Docker Hub
       run: |
