@@ -26,8 +26,6 @@ jobs:
     - name: Create a Release
       id: create_release
       uses: shogo82148/actions-create-release@v1
-      with:
-        release_name: asdf
 
     - name: Upload Assets
       uses: shogo82148/actions-upload-release-asset@v1
