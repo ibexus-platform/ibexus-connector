@@ -48,6 +48,8 @@ jobs:
       run: |
         echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u "ibexus" --password-stdin
         docker load < ${{ github.workspace }}/assets/ibexus-connector-image.tar
+        # push without tags to update "latest"
         docker push ibexus/ibexus-connector
+        # tag and push
         docker tag ibexus/ibexus-connector ibexus/ibexus-connector:${VERSION} 
         docker push ibexus/ibexus-connector:${VERSION}
