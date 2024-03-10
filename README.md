@@ -4,10 +4,12 @@
 
 Welcome to IBEXUS! This IBEXUS Connector is used access the IBEXUS platform. It provides the following features:
 
+- **Process creation and execution** create business processes and run them on IBEXUS
+- **Data sharing and verification** share data in an asserted way between parties. Verify shared data in a transparent process between multiple participants
+- **Permanent data storage** create permanent data records from your asserted data which can be accessed forever
 - **Accounts and users** create your IBEXUS account and users for collaborating on the IBEXUS platform
-- **Process creation and execution** create processes and run them on IBEXUS
 - **Signing and encryption** all the necessary cryptography is manages by the IBEXUS Connector. You do not need to implement anything manually
-- **Integration with secret managers** so far, AWS Secrets Manager and local file storage are implemented
+- **Integration with secret managers** so far, AWS Secrets Manager and local file storage are implemented. Please reach out if you need to be able to connect other secret managers
 - **Integrated sandbox** for testing and development, use the integrated sandbox environment to simulate all interactions locally
 
 Go to <https://ibexus.io> for more information about the IBEXUS platform. Go to <https://github.com/ibexus-platform/ibexus-connector> for the latest version of this software. Contact [developer@ibexus.io](mailto:developer@ibexus.io) with any questions you might have.
@@ -48,6 +50,8 @@ Connect to your container via a shell to use ibexus-connector on the command lin
 Download the executable binary at <https://github.com/ibexus-platform/ibexus-connector/releases>. At the moment, only Unix 64bit is supported. Unpack the `.zip` file and move the contained executable to a location of your choice, preferrably `/usr/local/bin` or some other location in your shell's `PATH`. Run the binary from your terminal with `ibexus-connector`. The binary supports both the command line tool and the REST API modes of IBEXUS Connector. The executable has extensive documentation available. Get started by executing `ibexus-connector --help` in your terminal.
 
 ## Documentation
+
+Get started quickly with our guides. You will learn how to create a simple business process and run it on the IBEXUS sandbox.
 
 [Getting started with the IBEXUS Connector command line tool](https://github.com/ibexus-platform/ibexus-connector/blob/main/docs/getting-started-command-line-tool.md)
 
