@@ -33,13 +33,13 @@ Access the image at Docker Hub: <https://hub.docker.com/r/ibexus/ibexus-connecto
 
 - `IBEXUS_API_KEYS` can be set to a list of comma-separated keys that should allow access to the API. The API is not secured if this variable is not set.
 - `IBEXUS_SECRETS_STORAGE` should be set to the secrets storage type that is being used. Default is a non-secure file-based storage at `/etc/secrets.json`. Set the environment variable to `aws-secrets-manager` to enable AWS secrets manager support.
-- `IBEXUS_PORT` can be used to set a non-default port. The default port is `80`.
+- `IBEXUS_PORT` can be used to set a non-default port. The default port is `8000`.
 - `IBEXUS_SANDBOX` enables the built-in sandbox if set to "true". If the sandbox is enabled, all requests go to a sandbox implementation of the IBEXUS platform.
 - `IBEXUS_GRPC_URL` can be used to change the URL that IBEXUS Connector uses to connect to the IBEXIS platform.
 
 #### REST API documentation
 
-Refer to the interactive documentation in order to find out more about all possible REST requests by navigating to `/api-docs` at the address of the container. Per default the exposed port is `80`.
+Refer to the interactive documentation in order to find out more about all possible REST requests by navigating to `/api-docs` at the address of the container. Per default the exposed port is `8000`.
 
 #### Command line tool usage
 
@@ -47,7 +47,7 @@ Connect to your container via a shell to use ibexus-connector on the command lin
 
 ### Executable file
 
-Download the executable binary at <https://github.com/ibexus-platform/ibexus-connector/releases>. At the moment, only Unix 64bit is supported. Unpack the `.zip` file and move the contained executable to a location of your choice, preferrably `/usr/local/bin` or some other location in your shell's `PATH`. Run the binary from your terminal with `ibexus-connector`. The binary supports both the command line tool and the REST API modes of IBEXUS Connector. The executable has extensive documentation available. Get started by executing `ibexus-connector --help` in your terminal.
+Download the executable binary at <https://github.com/ibexus-platform/ibexus-connector/releases>. At the moment Linux 64bit is supported. Unpack the `.zip` file and move the contained executable to a location of your choice, preferrably `/usr/local/bin` or some other location in your shell's `PATH`. Run the binary from your terminal with `ibexus-connector`. The binary supports both the command line tool and the REST API modes of IBEXUS Connector. The executable has extensive documentation available. Get started by executing `ibexus-connector --help` in your terminal.
 
 ## Documentation
 
