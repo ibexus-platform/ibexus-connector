@@ -9,7 +9,7 @@ To get comfortable with the IBEXUS platform, please follow along whith this quic
 IBEXUS Connector is available as a container image on Docker Hub. Use the following command to download and run the image. You will start the container image in sandbox mode and map its web interface to port 8000 on your machine. Sandbox mode allows you to try out all functionality of IBEXUS with a local sandbox. No data is leaving your machine in sandbox mode.
 
 ```shell
-docker run  --name ibexus-connector --platform linux/amd64 -d -p 8000:8000 -e IBEXUS_SANDBOX=true ibexus/ibexus-connector:latest
+docker run  --name ibexus-connector --platform linux/amd64 -d -p 8000:8000 ibexus/ibexus-connector:latest
 ```
 
 ## Running the IBEXUS Connector REST API on the command line
@@ -30,14 +30,14 @@ To browse the documentation, open <http://localhost:8000/api-docs> in your brows
 
 ## Initializing the sandbox
 
-IBEXUS Connector has a built-in sandbox functionality, which allows you to simulate and test every feature of the IBEXUS platform within a local simulation. In sandbox mode, no data leaves your machine, you do not even need an active internet connection if you run the docker container locally. All data is stored in the docker image at `/etc/ibexus` or at `~/.ibexus/sandbox` if you run IBEXUS Connector locally.
+IBEXUS Connector has a built-in sandbox functionality, which allows you to simulate and test every feature of the IBEXUS platform within a local simulation. In sandbox mode, no data leaves your machine, you do not even need an active internet connection if you run the docker container locally. All data is stored in the docker image at `/etc/ibexus` or at `~/.ibexus/sandbox` if you run IBEXUS Connector locally. In order to use the sandbox, you just need to select the "sandbox" chain instead of one of the other available chains, as demonstrated below.
 
 To get started using the sandbox, initialize the sandbox with a HTTP request. The JSON response contains invite codes for each supported blockchain that can be used to create an account, which we will do in the next step. Note that the sandbox, unlike the production environment, will always use the same invite codes.
 
 ```shell
 curl -X POST "localhost:8000/sandbox/initialize"
 
-{"near":["EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj","uguvMzUSJDpWgmAeafQEZzrEVXMrzDPZ8GALo6nLfDT","Auevovj8Hz2eA9bsZotN7cMjFeZwnGKFt39sCm5ZUZTd","7N1cAWLGUn7MARVwBqsXs7sbAiL2uoApKkPPhiSfhTjk","CSty5h41kV1Qj7UzM7mpsdzy6ZgQwiQ57Bm7MmoDAH91"],"concordium":["CnjVvp4v9zCNwXW6FgUQAczA5GfjVZJCHY3WbEXaJwFS","6Fxop3fgLyqBc7YtBxgUaFnZC3KYPvCELtSoR1mKu6yg","Gd1MTrkLyMAtQX8TZ2oDWnNW68doM573v1GNT2RBcbFS","CsffEHk49PVs1j6SuTsH6JgHZTuiuZE4GNosNWSodfo2","DVXeFL5ngkYyfhrrKGojydk1VuDDPeJuJ3XoMw5drUh8"]}
+{"codes":["EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj","uguvMzUSJDpWgmAeafQEZzrEVXMrzDPZ8GALo6nLfDT","Auevovj8Hz2eA9bsZotN7cMjFeZwnGKFt39sCm5ZUZTd","7N1cAWLGUn7MARVwBqsXs7sbAiL2uoApKkPPhiSfhTjk","CSty5h41kV1Qj7UzM7mpsdzy6ZgQwiQ57Bm7MmoDAH91"]}
 ```
 
 ## Create account with invite code
@@ -52,7 +52,7 @@ Now you can create an account using one of the provided invite codes. On IBEXUS 
 When you create a new account, you need to supply one of the invite codes. Each code can only be used once to create an account. Create an account using the following request, including placedholder contact data.
 
 ```shell
-curl -X POST "http://localhost:8000/account" -H "content-type: application/json" -d '{"invite":"EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj","chain":"near","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
+curl -X POST "http://localhost:8000/account" -H "content-type: application/json" -d '{"invite":"EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj","chain":"sandbox","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
 
 {"key":"<ACCOUNT_KEY>"}
 ```
@@ -66,7 +66,7 @@ Now we can create the users we need to be able to create and execute a process. 
 First, create a manager user with the following command. Replace `<ACCOUNT_KEY>` with the account key of the account that you created. Note that we are just supplying the key here. The secret of the account was stored in the secrets storage and will be looked up there.
 
 ```shell
-curl -X POST "http://localhost:8000/user" -H "content-type: application/json" -d '{"creator":"<ACCOUNT_KEY>","chain":"near","role":"manager","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
+curl -X POST "http://localhost:8000/user" -H "content-type: application/json" -d '{"creator":"<ACCOUNT_KEY>","chain":"sandbox","role":"manager","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
 
 {"key":"<MANAGER_KEY>"}
 ```
@@ -78,7 +78,7 @@ Note the key of the manager user that is returned in the response, you need it i
 Creator users are authorized to create processes on the IBEXUS platform (and in the sandbox). To create a process, we first need to create a user that can send a create process message. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user from the last step.
 
 ```shell
-curl -X POST "http://localhost:8000/user" -H "content-type: application/json" -d '{"creator":"MANAGER_KEY","chain":"near","role":"creator","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
+curl -X POST "http://localhost:8000/user" -H "content-type: application/json" -d '{"creator":"MANAGER_KEY","chain":"sandbox","role":"creator","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
 
 {"key":"<CREATOR_KEY>"}
 ```
@@ -90,7 +90,7 @@ Note the key of the creator user that is returned in the response, you need it l
 Create an executor user authorized to execute process steps. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user.
 
 ```shell
-curl -X POST "http://localhost:8000/user" -H "content-type: application/json" -d '{"creator":"MANAGER_KEY","chain":"near","role":"executor","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
+curl -X POST "http://localhost:8000/user" -H "content-type: application/json" -d '{"creator":"MANAGER_KEY","chain":"sandbox","role":"executor","contact":{"email":"example@acme.com","phone":"+41793456789"}}'
 
 {"key":"<EXECUTOR_KEY>"}
 ```
@@ -178,7 +178,7 @@ Additionally you need to define which user will be assigned to each role defined
 We just need a name for the process and now we can create it in the sandbox. Issue the following request to create a process. Replace `<EXECUTOR_KEY>` in the mandates JSON with the key of your executor user. Also replace <CREATOR_KEY> with the key of your creator user. The whole curl command is one line, take care that you paste it into your shell as one line.
 
 ```shell
-curl -X POST "http://localhost:8000/process" -H "content-type: application/json" -d '{"user":"<CREATOR_KEY>","chain":"near","name":"Example Process","mandates":[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"<EXECUTOR_KEY>"}],"design":{"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}],"steps":{"type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"String"}],"timeout":178,"share":{"type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"reject":{"type":{"end":{}}},"accept":{"type":{"pdr":{"scope":"8C2kCzsB2fJy9MiZos1mS","next":{"type":{"end":{}}}}}}}}},"cancel":{"type":{"end":{}}}}}}}}'
+curl -X POST "http://localhost:8000/process" -H "content-type: application/json" -d '{"user":"<CREATOR_KEY>","chain":"sandbox","name":"Example Process","mandates":[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"<EXECUTOR_KEY>"}],"design":{"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}],"steps":{"type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"String"}],"timeout":178,"share":{"type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"reject":{"type":{"end":{}}},"accept":{"type":{"pdr":{"scope":"8C2kCzsB2fJy9MiZos1mS","next":{"type":{"end":{}}}}}}}}},"cancel":{"type":{"end":{}}}}}}}}'
 
 {"key":"<PROCESS_KEY>"}
 ```
@@ -190,8 +190,8 @@ Note the key of the process that is returned in the response, you need it later.
 Use these commands to retrieve the process definition itself, the current state of the process, as well as the list of already processed actions. Actual key values are replace with the <KEY_NAMES> in the requests and in the responses.
 
 ```shell
-curl -X GET "http://localhost:8000/process/<PROCESS_KEY>?chain=near"
-curl -X GET "http://localhost:8000/process/<PROCESS_KEY>/history?chain=near"
+curl -X GET "http://localhost:8000/process/<PROCESS_KEY>?chain=sandbox"
+curl -X GET "http://localhost:8000/process/<PROCESS_KEY>/history?chain=sandbox"
 ```
 
 ## Get the process state
@@ -199,7 +199,7 @@ curl -X GET "http://localhost:8000/process/<PROCESS_KEY>/history?chain=near"
 You can also use `ibexus-connector` to view the current process state on chain. You will now find the key of the first step to execute by viewing the process state.
 
 ```shell
-curl -X GET "http://localhost:8000/process/<PROCESS_KEY>/state?chain=near"
+curl -X GET "http://localhost:8000/process/<PROCESS_KEY>/state?chain=sandbox"
 ```
 
 Executing this command will display the state of the process on chain in JSON format. The output will be similar to the JSON below. The second property with the name `position` gives you the key of the current step of the process that is waiting to be executed.
@@ -247,7 +247,7 @@ Now that the process has been created, you can execute the first step using the 
 Execute the following request to let your executor user execute the first step of the process. Replace `<EXECUTOR_KEY>` with the key of your executor user and `<PROCESS_KEY>` with the key of the process you created.  The `<STEP_KEY>` is is the key you retrieved from the process state from the field `position`. Note that execution requests are asynchrounous. To check successful execution, you need to view the process state or process history.
 
 ```shell
-curl -X POST "http://localhost:8000/process/<PROCESS_KEY>/execute" -H "content-type: application/json" -d '{"user":"<EXECUTOR_KEY>","chain":"near","step":"<STEP_KEY>","action":{"share":{"type":{"share":{"scope_items":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"Some Value"}}]}}}]}}}}}'
+curl -X POST "http://localhost:8000/process/<PROCESS_KEY>/execute" -H "content-type: application/json" -d '{"user":"<EXECUTOR_KEY>","chain":"sandbox","step":"<STEP_KEY>","action":{"share":{"type":{"share":{"scope_items":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"Some Value"}}]}}}]}}}}}'
 ```
 
 ## Execute verify step of process
@@ -269,13 +269,13 @@ The next step of the process is a verify step. The caller of this step accepts o
 Execute the following command to get the new position of the process that is ready for execution. Get the key of the current step from the returned JSON, in the field `position`.
 
 ```shell
-curl -X GET "http://localhost:8000/process/<PROCESS_KEY>/state?chain=near"
+curl -X GET "http://localhost:8000/process/<PROCESS_KEY>/state?chain=sandbox"
 ```
 
 Execute the following command to execute the next and last step in the process. Replace `<EXECUTOR_KEY>` with the key of your executor user and `<PROCESS_KEY>` with the key of the process you created. The `<STEP_KEY>` is the new value of the field `position` in the JSON data returned from the command you just executed.
 
 ```shell
-curl -X POST "http://localhost:8000/process/<PROCESS_KEY>/execute" -H "content-type: application/json" -d '{"user":"<EXECUTOR_KEY>","chain":"near","step":"<STEP_KEY>>","action":{"verify":{"type":{"accept":{"reason":"All good"}}}}}'
+curl -X POST "http://localhost:8000/process/<PROCESS_KEY>/execute" -H "content-type: application/json" -d '{"user":"<EXECUTOR_KEY>","chain":"sandbox","step":"<STEP_KEY>>","action":{"verify":{"type":{"accept":{"reason":"All good"}}}}}'
 ```
 
 ## Permanent data record creation
@@ -283,7 +283,7 @@ curl -X POST "http://localhost:8000/process/<PROCESS_KEY>/execute" -H "content-t
 After the data has been verified, a permanent data record (PDR) is automatically created from the data. A PDR is stored on a permanent, decentralized storage blockchain (we are currently using Arweave and will be adding more options in the future), accessible for at least the next 200 years. You can use the `ibexus-connector` tool to view the data record that was created:
 
 ```shell
-curl -X GET "http://localhost:8000/pdr?chain=near&process_key=<PROCESS_KEY>"
+curl -X GET "http://localhost:8000/pdr?chain=sandbox&process_key=<PROCESS_KEY>"
 ```
 
 This command will list all PDR data that has been created by your process with the key `<PROCESS_KEY>`.

@@ -10,13 +10,14 @@ Welcome to IBEXUS! This IBEXUS Connector is used access the IBEXUS platform. It 
 - **Accounts and users** create your IBEXUS account and users for collaborating on the IBEXUS platform
 - **Signing and encryption** all the necessary cryptography is manages by the IBEXUS Connector. You do not need to implement anything manually
 - **Integration with secret managers** so far, AWS Secrets Manager and local file storage are implemented. Please reach out if you need to be able to connect other secret managers
+- **AWS integration with Lambda** run IBEXUS connector as a Lambda function behind AWS API Gateway with AWS Secrets Manager integration
 - **Integrated sandbox** for testing and development, use the integrated sandbox environment to simulate all interactions locally
 
 Go to <https://ibexus.io> for more information about the IBEXUS platform. Go to <https://github.com/ibexus-platform/ibexus-connector> for the latest version of this software. Contact [developer@ibexus.io](mailto:developer@ibexus.io) with any questions you might have.
 
 ## How to connect to the IBEXUS platform
 
-You can use IBEXUS Connector in one of two ways:
+You can use IBEXUS Connector in one of three ways:
 
 - **Command line tool** use IBEXUS Connector as a command line utility for testing and development. Secrets are stored on your filesystem, do not use for production.
 - **REST API** run the IBEXUS Connector as a docker container image in your environment and use it to connect to the IBEXUS platform.
@@ -32,10 +33,8 @@ Access the image at Docker Hub: <https://hub.docker.com/r/ibexus/ibexus-connecto
 #### Environment variables
 
 - `IBEXUS_API_KEYS` can be set to a list of comma-separated keys that should allow access to the API. The API is not secured if this variable is not set.
-- `IBEXUS_SECRETS_STORAGE` should be set to the secrets storage type that is being used. Default is a non-secure file-based storage at `/etc/secrets.json`. Set the environment variable to `aws-secrets-manager` to enable AWS secrets manager support.
+- `IBEXUS_SECRETS_STORAGE` should be set to the secrets storage type that is being used. Default is a non-secure file-based storage. Set the environment variable to `aws-secrets-manager` to enable AWS Secrets Manager support. It will work out of the box on AWS if the AWS config environment variables are set for the container.
 - `IBEXUS_PORT` can be used to set a non-default port. The default port is `8000`.
-- `IBEXUS_SANDBOX` enables the built-in sandbox if set to "true". If the sandbox is enabled, all requests go to a sandbox implementation of the IBEXUS platform.
-- `IBEXUS_GRPC_URL` can be used to change the URL that IBEXUS Connector uses to connect to the IBEXIS platform.
 
 #### REST API documentation
 
@@ -56,3 +55,5 @@ Get started quickly with our guides. You will learn how to create a simple busin
 [Getting started with the IBEXUS Connector command line tool](https://github.com/ibexus-platform/ibexus-connector/blob/main/docs/getting-started-command-line-tool.md)
 
 [Getting started with the IBEXUS Connector REST API](https://github.com/ibexus-platform/ibexus-connector/blob/main/docs/getting-started-rest-api.md)
+
+[Getting started with the IBEXUS Connector Lambda function](https://github.com/ibexus-platform/ibexus-connector/blob/main/docs/getting-started-lambda.md)

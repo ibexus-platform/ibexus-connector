@@ -56,8 +56,8 @@ Commands:
   help      Print this message or the help of the given subcommand(s)
 
 Options:
-      --sandbox                      Enable sandbox [env: IBEXUS_SANDBOX=]
-      --sandbox-path <SANDBOX_PATH>  Sandbox storage path [env: IBEXUS_SANDBOX_PATH=]
+                          Enable sandbox [env: IBEXUS_SANDBOX=]
+    -path <SANDBOX_PATH>  Sandbox storage path [env: IBEXUS_SANDBOX_PATH=]
       --grpc-url <GRPC_URL>          gRPC domain [env: IBEXUS_GRPC_URL=] [default: https://grpc.ibexus.io/view]
       --json-output                  JSON Output [env: IBEXUS_JSON_OUTPUT=]
   -h, --help                         Print help (see more with '--help')
@@ -66,26 +66,18 @@ Options:
 
 ## Initializing the sandbox
 
-IBEXUS Connector has a built-in sandbox functionality, which allows you to simulate and test every feature of the IBEXUS platform within a local simulation. In sandbox mode, no data leaves your machine, you do not even need an active internet connection. All data is stored on your local disk. The default storage path is `~/.ibexus`.
+IBEXUS Connector has a built-in sandbox functionality, which allows you to simulate and test every feature of the IBEXUS platform within a local simulation. In sandbox mode, no data leaves your machine, you do not even need an active internet connection. All data is stored on your local disk. The default storage path is `~/.ibexus`. In order to use the sandbox, you just need to select the "sandbox" chain instead of one of the other available chains, as demonstrated below.
 
 To get started using the sandbox, initialize the sandbox with the command `ibexus-connector sandbox initialize`, which will produce the following output. Note that the sandbox, unlike the production environment, will always use the same invite codes.
 
 ```console
-The sandbox was reset to an empty state. The following invite codes for the different chains are now available:
+The sandbox was reset to an empty state. The following invite codes are now available:
 
-Chain: Near
     EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj
     uguvMzUSJDpWgmAeafQEZzrEVXMrzDPZ8GALo6nLfDT
     Auevovj8Hz2eA9bsZotN7cMjFeZwnGKFt39sCm5ZUZTd
     7N1cAWLGUn7MARVwBqsXs7sbAiL2uoApKkPPhiSfhTjk
     CSty5h41kV1Qj7UzM7mpsdzy6ZgQwiQ57Bm7MmoDAH91
-
-Chain: Concordium
-    CnjVvp4v9zCNwXW6FgUQAczA5GfjVZJCHY3WbEXaJwFS
-    6Fxop3fgLyqBc7YtBxgUaFnZC3KYPvCELtSoR1mKu6yg
-    Gd1MTrkLyMAtQX8TZ2oDWnNW68doM573v1GNT2RBcbFS
-    CsffEHk49PVs1j6SuTsH6JgHZTuiuZE4GNosNWSodfo2
-    DVXeFL5ngkYyfhrrKGojydk1VuDDPeJuJ3XoMw5drUh8
 ```
 
 ## Create account with invite code
@@ -100,7 +92,7 @@ Now you can create an account using one of the provided invite codes. On IBEXUS 
 When you create a new account, you need to supply one of the invite codes. Each code can only be used once to create an account. Run the command `ibexus-connector account create --help` to display help on the required parameters. For the sandbox the fields parameters `email` and `phone` can be assigned placeholder values. Create an account using the following command.
 
 ```shell
-ibexus-connector account create --sandbox --chain near --email example@example.com --phone 123123123 --invite-code EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj
+ibexus-connector account create --chain sandbox --email example@example.com --phone 123123123 --invite-code EuMKp7STb7Kax3v9gJcMJ3WRU92d1DjjabCvF7oYTwWj
 ```
 
 This command will produce something similar to the following output:
@@ -121,7 +113,7 @@ Now we can create the users we need to be able to create and execute a process. 
 Note that we are just supplying the key here. The secret of the account was stored in the `secrets.json` file and will be looked up there. You can also supply a secret as an environment variable, using the key as the name of the variable, prefixed with "IBEXUS_", and the signing key as the value.
 
 ```shell
-ibexus-connector user create --sandbox --chain near --role manager --email example@example.com --phone 123123123 --account-key <ACCOUNT_KEY>
+ibexus-connector user create --chain sandbox --role manager --email example@example.com --phone 123123123 --account-key <ACCOUNT_KEY>
 ```
 
 This command will produce something similar to the following output. Note the key of the manager user, you need it in the next step.
@@ -136,7 +128,7 @@ The signing key of the new user is available in the ibexus-connector secrets fil
 Creator users are authorized to create processes on the IBEXUS platform (and in the sandbox). To create a process, we first need to create a user that can send a create process message. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user from the last step.
 
 ```shell
-ibexus-connector user create --sandbox --chain near --role creator --email example@example.com --phone 123123123 --manager-key <MANAGER_KEY>
+ibexus-connector user create --chain sandbox --role creator --email example@example.com --phone 123123123 --manager-key <MANAGER_KEY>
 ```
 
 This command will produce something similar to the following output. Note the key of the creator user, you need it later.
@@ -151,7 +143,7 @@ The signing key of the new user is available in the ibexus-connector secrets fil
 Create an executor user authorized to execute process steps. Issue the following command, replace `<MANAGER_KEY>` with the key of the manager user.
 
 ```shell
-ibexus-connector user create --sandbox --chain near --role executor --email example@example.com --phone 123123123 --manager-key <MANAGER_KEY>
+ibexus-connector user create --chain sandbox --role executor --email example@example.com --phone 123123123 --manager-key <MANAGER_KEY>
 ```
 
 This command will produce something similar to the following output. Note the key of the creator user, you need it later.
@@ -239,7 +231,7 @@ Additionally you need to define which user will be assigned to each role defined
 We just need a name for the process and now we can create it in the sandbox. Issue the following command to create a process. Replace `<EXECUTOR_KEY>` in the mandates JSON with the key of your executor user. Also replace `<CREATOR_KEY>` with the key of your creator user. The whole command is one line, take care that you paste it into your shell as one line.
 
 ```shell
-ibexus-connector process create --sandbox --chain near --creator-key <CREATOR_KEY> --design '{"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}],"steps":{"type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"String"}],"timeout":178,"share":{"type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"reject":{"type":{"end":{}}},"accept":{"type":{"pdr":{"scope":"8C2kCzsB2fJy9MiZos1mS","next":{"type":{"end":{}}}}}}}}},"cancel":{"type":{"end":{}}}}}}}' --mandates '[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"<EXECUTOR_KEY>"}]' --name "Example Process"
+ibexus-connector process create --chain sandbox --creator-key <CREATOR_KEY> --design '{"roles":[{"key":"7Kc9KAEmpXex2aihgCgCDM","name":"Execute all steps"}],"scopes":[{"key":"8C2kCzsB2fJy9MiZos1mS","name":"Public Data","type":{"public_data":{}}}],"steps":{"type":{"share":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"fields":[{"key":"FP4VQzjM4KcwHiS8cj2Xs","name":"Data field","scope":"8C2kCzsB2fJy9MiZos1mS","type":"String"}],"timeout":178,"share":{"type":{"verify":{"callers":["7Kc9KAEmpXex2aihgCgCDM"],"attempts":1,"timeout":122,"reject":{"type":{"end":{}}},"accept":{"type":{"pdr":{"scope":"8C2kCzsB2fJy9MiZos1mS","next":{"type":{"end":{}}}}}}}}},"cancel":{"type":{"end":{}}}}}}}' --mandates '[{"role":"7Kc9KAEmpXex2aihgCgCDM","user":"<EXECUTOR_KEY>"}]' --name "Example Process"
 ```
 
 The execution of this command should result in an output similar to the one below. Note the key of the created process, you need it later.
@@ -253,7 +245,7 @@ Key of new process: DjNVxDGLbnEbnFyzpKDRWy
 You can use `ibexus-connector` to view the current process state on chain. You will now find the key of the first step to execute by viewing the process state.
 
 ```shell
-ibexus-connector process view-state --sandbox --chain near --process-key <PROCESS_KEY>
+ibexus-connector process view-state --chain sandbox --process-key <PROCESS_KEY>
 ```
 
 Executing this command will display the state of the process on chain in JSON format. The output will be similar to the JSON below. The second property with the name `position` gives you the key of the current step of the process that is waiting to be executed.
@@ -301,7 +293,7 @@ Now you can execute the first step of the process using the executor user. To ex
 Execute the following command to let your executor user execute the first step of the process. Replace `<EXECUTOR_KEY>` with the key of your executor user and `<PROCESS_KEY>` with the key of the process you created. The `<STEP_KEY>` is is the key you retrieved from the process state from the field `position`.
 
 ```shell
-ibexus-connector process execute --sandbox --chain near --executor-key <EXECUTOR_KEY> --process-key <PROCESS_KEY> --step-key <STEP_KEY> --action '{"share":{"type":{"share":{"scope_items":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"Test String"}}]}}}]}}}}'
+ibexus-connector process execute --chain sandbox --executor-key <EXECUTOR_KEY> --process-key <PROCESS_KEY> --step-key <STEP_KEY> --action '{"share":{"type":{"share":{"scope_items":[{"scope":"8C2kCzsB2fJy9MiZos1mS","type":{"public_data":{"data_items":[{"field":"FP4VQzjM4KcwHiS8cj2Xs","type":{"string_value":"Test String"}}]}}}]}}}}'
 ```
 
 You will receive a notice that the execution request has been sent:
@@ -313,7 +305,7 @@ Execution request sent. You can check process state with `ibexus-connector proce
 Use the `view_state` command as before to retrieve the new position of the process. The value of the `position` field will be the new `STEP_KEY` to use for the next execution call to the process.
 
 ```shell
-ibexus-connector process view-state --sandbox --chain near --process-key <PROCESS_KEY>
+ibexus-connector process view-state --chain sandbox --process-key <PROCESS_KEY>
 ```
 
 ## Execute verify step of process
@@ -335,7 +327,7 @@ The next step of the process is a verify step. The caller of this step accepts o
 Execute the following command to execute the next and last step in the process. Replace `<EXECUTOR_KEY>` with the key of your executor user and `<PROCESS_KEY>` with the key of the process you created. The `<STEP_KEY>` is the value of the position field that you retrieved from the process state after executing the first step.
 
 ```shell
-ibexus-connector process execute --sandbox --chain near --executor-key <EXECUTOR_KEY> --process-key <PROCESS_KEY> --step-key <STEP_KEY> --action '{"verify":{"type":{"accept":{"reason":"All good"}}}}'
+ibexus-connector process execute --chain sandbox --executor-key <EXECUTOR_KEY> --process-key <PROCESS_KEY> --step-key <STEP_KEY> --action '{"verify":{"type":{"accept":{"reason":"All good"}}}}'
 ```
 
 You will receive a notice that the execution request has been sent:
@@ -351,7 +343,7 @@ The process is not completed. If you would view the process state again, you wou
 After the data has been verified, a permanent data record (PDR) is automatically created from the data. A PDR is stored on a permanent, decentralized storage blockchain (we are currently using Arweave and will be adding more options in the future), accessible for at least the next 200 years. You can use the `ibexus-connector` tool to view the data record that was created:
 
 ```shell
-ibexus-connector pdr list --sandbox --chain near --process-key <PROCESS_KEY>
+ibexus-connector pdr list --chain sandbox --process-key <PROCESS_KEY>
 ```
 
 This command will list all PDR data that has been created by your process with the key `<PROCESS_KEY>`.
