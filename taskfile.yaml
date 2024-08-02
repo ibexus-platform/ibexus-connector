@@ -3,40 +3,10 @@ silent: false
 tasks:
   release:
     desc: Release a new version of IBEXUS Connector
-    requires:
-      vars: [BUMP]
     cmds:
       - |
-        # Get the latest release tag in the format v0.1.0
-        git fetch --tags && LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
-        echo $LATEST_TAG
-
-        # Split the tag into an array based on '.'
-        VERSION=${LATEST_TAG:1}
-        IFS='.' read MAJOR MINOR PATCH <<< "$VERSION"
-
-        case {{ .BUMP }} in
-          major)
-            MAJOR=$((MAJOR + 1))
-            MINOR=0
-            PATCH=0
-            ;;
-          minor)
-            MINOR=$((MINOR + 1))
-            PATCH=0
-            ;;
-          patch)
-            PATCH=$((PATCH + 1))
-            ;;
-          *)
-            echo "Invalid parameter for version bump. Use 'major', 'minor', or 'patch'."
-            exit 1
-            ;;
-        esac
-
-        # Form the new version tag
-        NEW_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
-        echo $NEW_VERSION
+        # Get the new version tag
+        NEW_VERSION=$(echo .version)
 
         # Check if there are uncommitted changes and commit them if any
         if [[ -n $(git status -s) ]]; then
