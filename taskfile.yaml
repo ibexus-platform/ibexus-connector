@@ -6,7 +6,7 @@ tasks:
     cmds:
       - |
         # Get the new version tag
-        NEW_VERSION=$(echo .version)
+        NEW_VERSION=$(echo <.version)
 
         # Check if there are uncommitted changes and commit them if any
         if [[ -n $(git status -s) ]]; then
