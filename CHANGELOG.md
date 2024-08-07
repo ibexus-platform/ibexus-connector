@@ -4,11 +4,21 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [0.4.2] - 2024.08.07
+
+### Added
+
+- Added 1Password integration to CLI tool. Use one-password as secrets repository to store and retrieve signing keys with 1Password
+
+### Changed
+
+- Return null instead of [] for JSON output if a view request does not find a resource
+
 ## [0.4.1] - 2024.08.02
 
 ### Changed
 
-- If nothing was found for a view request the connector CLI now returns "No result found" or an empty JSON array. Exit code is 0.
+- If nothing was found for a view request the connector CLI now returns "No result found" or an empty JSON array and exit code 0
 
 ## [0.4.0] - 2024-07-30
 
