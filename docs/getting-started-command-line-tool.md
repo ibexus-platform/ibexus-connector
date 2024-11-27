@@ -167,42 +167,60 @@ The keys used are as follows:
 
 ```json
 {
-  "roles": [{ "key": "7Kc9KAEmpXex2aihgCgCDM", "name": "Execute all steps" }],
+  "roles": [
+    {
+      "key": "7Kc9KAEmpXex2aihgCgCDM",
+      "name": "Execute all steps"
+    }
+  ],
   "scopes": [
     {
       "key": "8C2kCzsB2fJy9MiZos1mS",
       "name": "Public Data",
-      "type": { "public_data": {} }
+      "type": {
+        "public_data": {
+          "fields": [
+            {
+              "key": "FP4VQzjM4KcwHiS8cj2Xs",
+              "name": "Data field",
+              "type": "String"
+            }
+          ]
+        }
+      }
     }
   ],
   "steps": {
     "type": {
       "share": {
-        "callers": ["7Kc9KAEmpXex2aihgCgCDM"],
+        "callers": [
+          "7Kc9KAEmpXex2aihgCgCDM"
+        ],
         "fields": [
-          {
-            "key": "FP4VQzjM4KcwHiS8cj2Xs",
-            "name": "Data field",
-            "scope": "8C2kCzsB2fJy9MiZos1mS",
-            "type": "String"
-          }
+          "FP4VQzjM4KcwHiS8cj2Xs"
         ],
         "timeout": 178,
         "share": {
           "type": {
             "verify": {
-              "callers": ["7Kc9KAEmpXex2aihgCgCDM"],
+              "callers": [
+                "7Kc9KAEmpXex2aihgCgCDM"
+              ],
               "attempts": 1,
               "timeout": 122,
               "reject": {
-                "type": { "end": {} }
+                "type": {
+                  "end": {}
+                }
               },
               "accept": {
                 "type": {
                   "pdr": {
                     "scope": "8C2kCzsB2fJy9MiZos1mS",
                     "next": {
-                      "type": { "end": {} }
+                      "type": {
+                        "end": {}
+                      }
                     }
                   }
                 }
@@ -210,12 +228,15 @@ The keys used are as follows:
             }
           }
         },
-        "cancel": { "type": { "end": {} } }
+        "cancel": {
+          "type": {
+            "end": {}
+          }
+        }
       }
     }
   }
-}
-```
+}```
 
 Additionally you need to define which user will be assigned to each role defined in the design. This assignment is passed in as the `mandates` parameter, also in JSON format. In JSON, the list of mandates we will use looks like the following. There is only one role in the the process, and we assign our executor user to this role.
 

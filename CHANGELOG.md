@@ -1,31 +1,19 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Possible headings are: *Added*, *Changed*, *Deprecated*, *Removed*, *Fixed*, *Security*.
+All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-## [0.4.2] - 2024.08.07
+## [1.0.0] - 2014-11-27
 
 ### Added
 
-- Added 1Password integration to CLI tool. Use one-password as secrets repository to store and retrieve signing keys with 1Password
+- Payment is now activated. No transactions are possible without credits
 
 ### Changed
 
-- Return null instead of [] for JSON output if a view request does not find a resource
+- Process designs: field definitions are now stored in the corresponding scope definition. This is a breaking change. You will need to rework your designs. Do not hesitate to contact <developer@ibexus.io> if you need support.
 
-## [0.4.1] - 2024.08.02
-
-### Changed
-
-- If nothing was found for a view request the connector CLI now returns "No result found" or an empty JSON array and exit code 0
-
-## [0.4.0] - 2024-07-30
+## [0.4.2] - 2024-08-07
 
 ### Added
 
-- New release asset: AWS Lambda function for integration with AWS API Gateway
-
-### Changed
-
-- Sandbox is now treated like a blockchain and not a separate setting
+- Initial release
