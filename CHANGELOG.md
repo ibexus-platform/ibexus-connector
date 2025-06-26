@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 26.06.2025
+
+### Added
+
+Nothing
+
+### Changed
+
+- the user of the IBEXUS Connector container image is now specified using the user id instead of the name. This enables some Kubernetes environments to determine whether the user running in the container is root (it is not).
+
+### Deprecated
+
+Nothing
+
+### Removed
+
+Nothing
+
+### Fixed
+
+Nothing
+
+### Security
+
+Nothing
+
 ## [2.0.0] - 13.06.2025
 
 ### Added
