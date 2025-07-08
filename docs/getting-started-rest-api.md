@@ -24,9 +24,7 @@ Now you can start the IBEXUS Connector REST API on port 8000 with `ibexus-connec
 
 ## Accessing the REST API documentation
 
-To browse the documentation, open <http://localhost:8000/api-docs> in your browser. You will find an [OpenAPI](https://www.openapis.org/) compatible specification and documentation.
-
-![ibexus-connector-rest-api-docs-screenshot](https://github.com/ibexus-platform/ibexus-connector/assets/67227/ce88e985-18a2-42fd-992a-cd011b6a9d1f)
+To browse the documentation, open <http://localhost:8000/docs> in your browser. You will find an [OpenAPI](https://www.openapis.org/) compatible specification and documentation using [Swagger UI](https://swagger.io/tools/swagger-ui/).
 
 ## Initializing the sandbox
 

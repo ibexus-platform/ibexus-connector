@@ -38,7 +38,7 @@ Access the image at Docker Hub: <https://hub.docker.com/r/ibexus/ibexus-connecto
 
 #### REST API documentation
 
-Refer to the interactive documentation in order to find out more about all possible REST requests by navigating to `/api-docs` at the address of the container. Per default the exposed port is `8000`.
+Refer to the interactive documentation in order to find out more about all possible REST requests by navigating to `/docs` at the address of the container. Per default the exposed port is `8000`.
 
 #### Command line tool usage
 

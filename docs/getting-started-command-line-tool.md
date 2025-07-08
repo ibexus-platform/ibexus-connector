@@ -45,7 +45,7 @@ Usage:
 ibexus-connector [OPTIONS] <COMMAND>
 
 Commands:
-  api-docs  Start a web server just for looking at the REST API documentation
+  docs  Start a web server just for looking at the REST API documentation
   server    Start as a REST API server
   process   Manage processes
   user      Manage users
