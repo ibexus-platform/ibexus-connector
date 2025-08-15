@@ -21,6 +21,7 @@ tasks:
         if git rev-parse "${NEW_VERSION}" >/dev/null 2>&1; then
             echo "Tag ${NEW_VERSION} exists already, deleting"
             git tag -d $NEW_VERSION
+            git push --delete origin $NEW_VERSION
         fi
         git tag $NEW_VERSION
 
