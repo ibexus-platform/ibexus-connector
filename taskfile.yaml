@@ -32,6 +32,6 @@ tasks:
         # Publish to Docker Hub
         docker logout
         echo $(op read "op://IBEXUS/Docker Hub/personal access token") | docker login -u ibexus --password-stdin
-        # scripts/dockerhub-publish.sh -f assets/ibexus-connector-image-${NEW_VERSION:1}.tar -r ibexus-platform/ibexus-connector -t ${NEW_VERSION} --also-latest
+        scripts/dockerhub-publish.sh -f assets/ibexus-connector-image-${NEW_VERSION:1}.tar -r ibexus-platform/ibexus-connector -t ${NEW_VERSION} --also-latest
 set: [e, u, pipefail]
 version: 3
