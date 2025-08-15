@@ -29,6 +29,7 @@ tasks:
         git push origin $NEW_VERSION
 
         # Publish to Docker Hub
+        docker login
         scripts/dockerhub-publish.sh -f assets/ibexus-connector-image-${NEW_VERSION:1}.tar -r ibexus-platform/ibexus-connector -t ${NEW_VERSION} --also-latest
 
         # stop colima
