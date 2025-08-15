@@ -5,6 +5,9 @@ tasks:
     desc: Release a new version of IBEXUS Connector
     cmds:
       - |
+        # start colima if not running
+        colima status >/dev/null 2>&1 || colima start --cpu 12 --memory 32 --disk 100 --vm-type=vz --vz-rosetta
+
         # Get the new version tag
         NEW_VERSION=$(cat .version)
 
@@ -27,5 +30,8 @@ tasks:
 
         # Publish to Docker Hub
         scripts/dockerhub-publish.sh -f assets/ibexus-connector-image-${NEW_VERSION:1}.tar -r ibexus-platform/ibexus-connector -t ${NEW_VERSION} --also-latest
+
+        # stop colima
+        colima stop
 set: [e, u, pipefail]
 version: 3
