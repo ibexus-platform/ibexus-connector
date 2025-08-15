@@ -15,7 +15,11 @@ tasks:
         fi
 
         # Add a tag to the latest commit with the new version number
-        git tag $NEW_VERSION
+        if git rev-parse "${NEW_VERSION}" >/dev/null 2>&1; then
+            echo "Tag ${NEW_VERSION} exists already"
+        else
+            git tag $NEW_VERSION
+        fi
 
         # Push changes and tags to the origin
         git push origin main
