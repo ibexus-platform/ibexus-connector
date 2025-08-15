@@ -31,8 +31,5 @@ tasks:
         # Publish to Docker Hub
         docker login
         scripts/dockerhub-publish.sh -f assets/ibexus-connector-image-${NEW_VERSION:1}.tar -r ibexus-platform/ibexus-connector -t ${NEW_VERSION} --also-latest
-
-        # stop colima
-        colima stop
 set: [e, u, pipefail]
 version: 3
