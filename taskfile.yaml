@@ -20,7 +20,7 @@ tasks:
         # Add a tag to the latest commit with the new version number
         if git rev-parse "${NEW_VERSION}" >/dev/null 2>&1; then
             echo "Tag ${NEW_VERSION} exists already, deleting"
-            git tag remove $NEW_VERSION
+            git tag -d $NEW_VERSION
         fi
         git tag $NEW_VERSION
 
